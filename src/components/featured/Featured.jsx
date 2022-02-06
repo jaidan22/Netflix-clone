@@ -2,11 +2,30 @@ import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import "./featured.scss";
 import movieimg from "../../images/dark-knight-title.jpeg";
 import moviebg from "../../images/dark-knight-bg.jpg";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Featured(type) {
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    const getRandom = async () => {
+      try {
+        const res = await axios.get(`/movies/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjk1NmJmYTUwYWRjNTEzYzRiNjU3ZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MzgxMDUzOSwiZXhwIjoxNjQ0MjQyNTM5fQ.8KS5Jmq2ymaQ_VUUp7aEENmz9oZnhAtCsWe0lzPJ6h0",
+          },
+        });
+        setContent(res.data[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getRandom();
+  }, [type]);
   return (
     <div className="featured">
-      {console.log(type.type)}
       {type.type && (
         <div className="category">
           <span>{type.type === "movies" ? "Movies" : "TV Series"}</span>
@@ -28,15 +47,11 @@ function Featured(type) {
         </div>
       )}
 
-      <img src={moviebg} alt="user" width="100%" />
+      <img src={content.imgThumbnail} alt="user" width="100%" />
       <div className="info">
-        <img src={movieimg} alt="movie" />
-        <span className="desc">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae, magni,
-          nisi error dolorem nam ea impedit ratione optio ad unde illo quis
-          necessitatibus dolore alias est veniam velit. Numquam tenetur possimus
-          nisi nobis ab nulla repellendus ex beatae veritatis maiores.
-        </span>
+        {console.log(content)}
+        <img src={content.imgTitle} alt="movie" />
+        <span className="desc">{content.desc}</span>
         <div className="buttons">
           <button className="play">
             <PlayArrow />

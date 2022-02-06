@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./navbar.scss";
 import profile from "../../images/profile.jpg";
 import logo from "../../images/icon.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,11 +20,21 @@ const Navbar = () => {
       <div className="container">
         <div className="left">
           <img src={logo} alt="netflix logo" />
-          <span>Home</span>
-          <span>TV Shows</span>
-          <span>Movies</span>
-          <span>Recently Added</span>
-          <span>My List</span>
+          <Link to="/" className="link">
+            <span>Homepage</span>
+          </Link>
+          <Link to="/series" className="link">
+            <span>TV Shows</span>
+          </Link>
+          <Link to="/movies" className="link">
+            <span>Movies</span>
+          </Link>
+          <Link to="/" className="link">
+            <span>Recently Added</span>
+          </Link>
+          <Link to="/" className="link">
+            <span>My List</span>
+          </Link>
         </div>
         <div className="right">
           <Search className="icon" />
