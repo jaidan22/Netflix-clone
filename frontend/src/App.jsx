@@ -11,7 +11,7 @@ import Register from "./pages/register/Register";
 import Watch from "./pages/watch/Watch";
 
 const App = () => {
-  const user = true;
+  const user = false;
   return (
     <Router>
       {/* <Switch>

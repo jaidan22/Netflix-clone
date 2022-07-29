@@ -6,7 +6,6 @@ import {
   ThumbDownOutlined,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
-import bond from "../../images/bond.jpg";
 import { useState, useEffect } from "react";
 import axios from "axios";
 

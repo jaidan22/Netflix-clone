@@ -1,7 +1,5 @@
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import "./featured.scss";
-import movieimg from "../../images/dark-knight-title.jpeg";
-import moviebg from "../../images/dark-knight-bg.jpg";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
