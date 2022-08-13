@@ -3,18 +3,43 @@ import logo from "../../images/icon.png";
 import { useRef, useState } from "react";
 import { ArrowForwardIosOutlined } from "@material-ui/icons";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
 
   const handleStart = () => {
     setEmail(emailRef.current.value);
+    const un = emailRef.current.value.match(/[A-Za-z0-9]+/);
+    console.log(un);
+    un && setUsername(un[0]);
   };
 
-  const handleFinish = () => {
+  const redirect = () => <Navigate to="/login" />;
+
+  const handleFinish = async (e) => {
+    e.preventDefault();
+    console.log({ email, password, username });
+    try {
+      const res = await axios.post("auth/register", {
+        email,
+        password,
+        username,
+      });
+      console.log(res);
+      return redirect();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handlePass = () => {
     setPassword(passwordRef.current.value);
   };
 
@@ -34,13 +59,18 @@ function Register() {
         <meta property="og:type" content="website" />
         <meta property="og:description" content="Register to Netflix" />
       </Helmet>
-      <div className="top">
-        <div className="wrapper">
-          <img src={logo} alt="logo" className="logo" />
-          <button className="loginbtn">Sign In</button>
-        </div>
-      </div>
+
       <div className="container">
+        <div className="top">
+          <div className="wrapper">
+            <img src={logo} alt="logo" className="logo" />
+            <Link to="/login">
+              <button className="loginbtn">Sign In</button>
+            </Link>
+          </div>
+        </div>
+
+        {/* <div className="container"> */}
         <h1>
           Unlimited movies, TV
           <br />
@@ -50,14 +80,25 @@ function Register() {
         <p>Ready to watch? Enter your email or restart you membership.</p>
         {!email ? (
           <div className="input">
-            <input type="email" placeholder="Email address" ref={emailRef} />
-            <button className="registerbtn" onClick={handleStart}>
+            <input
+              type="email"
+              placeholder="Email address"
+              ref={emailRef}
+              required
+              aria-required="true"
+            />
+            <button className="registerbtn" onClick={(e) => handleStart(e)}>
               Get Started <ArrowForwardIosOutlined />
             </button>
           </div>
         ) : (
           <form className="input">
-            <input type="password" placeholder="Password" ref={passwordRef} />
+            <input
+              type="password"
+              placeholder="Password"
+              ref={passwordRef}
+              onChange={handlePass}
+            />
             <button className="registerbtn" onClick={handleFinish}>
               Start <ArrowForwardIosOutlined />
             </button>

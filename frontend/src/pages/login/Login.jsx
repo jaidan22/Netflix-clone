@@ -3,8 +3,28 @@ import logo from "../../images/icon.png";
 import { useRef, useState } from "react";
 import { ArrowForwardIosOutlined } from "@material-ui/icons";
 import { Helmet } from "react-helmet";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext/AuthContext";
+import { login } from "../../context/authContext/apiCalls";
+import { Link, Navigate } from "react-router-dom";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+  const { error, isFetching, dispatch } = useContext(AuthContext);
+
+  const handlePass = (e) => {
+    setpassword(e.target.value);
+  };
+  const handlEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    login({ email, password }, dispatch);
+  };
+
   return (
     <div className="login">
       <Helmet>
@@ -30,11 +50,33 @@ function Login() {
       <div className="container">
         <form action="">
           <h1>Sign In</h1>
-          <input type="email" placeholder="Email or Phone number" />
-          <input type="password" placeholder="Password" />
-          <button className="loginBtn">Sign in</button>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => handlEmail(e)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => handlePass(e)}
+          />
+          <button
+            className="loginBtn"
+            type="submit"
+            onClick={(e) => handleClick(e)}
+            disabled={isFetching}
+          >
+            Sign in
+            <span>{error}</span>
+          </button>
+          {/* {console.log(error)} */}
+          {/* {error && (
+            <span className="error" style={{ color: "red", fontSize: "16px" }}>
+              {error}
+            </span>
+          )} */}
           <span>
-            New to Netflix? <a href="">Sign up now.</a>
+            New to Netflix? <Link to="/register">Sign up now.</Link>
           </span>
           <small>
             This page is protected by Google reCAPTCHA to ensure you're not a

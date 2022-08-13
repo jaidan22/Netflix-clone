@@ -13,13 +13,13 @@ const Home = ({ type }) => {
     const getRandomLists = async () => {
       try {
         const res = await axios.get(
-          `lists${type ? "?type=" + type : ""}${
+          `/lists${type ? "?type=" + type : ""}${
             genre ? "&genre=" + genre : ""
           }`,
           {
             headers: {
               token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjk1NmJmYTUwYWRjNTEzYzRiNjU3ZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MzgxMDUzOSwiZXhwIjoxNjQ0MjQyNTM5fQ.8KS5Jmq2ymaQ_VUUp7aEENmz9oZnhAtCsWe0lzPJ6h0",
+              `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
             },
           }
         );
@@ -35,6 +35,7 @@ const Home = ({ type }) => {
   return (
     <div className="home">
       <Navbar />
+      {console.log(lists)}
       <Featured type={type} />
       {lists.map((list) => (
         <List list={list} />

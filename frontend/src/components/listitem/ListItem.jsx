@@ -12,7 +12,6 @@ import axios from "axios";
 function ListItem({ index, item }) {
   const [isHovered, setIsHovered] = useState(false);
   const [movie, setMovie] = useState({});
-  // const trailer = "https://youtu.be/BIhNsAtPbPI";
 
   useEffect(() => {
     const getMovie = async () => {
@@ -20,7 +19,7 @@ function ListItem({ index, item }) {
         const res = await axios.get("/movies/find/" + item, {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjk1NmJmYTUwYWRjNTEzYzRiNjU3ZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MzgxMDUzOSwiZXhwIjoxNjQ0MjQyNTM5fQ.8KS5Jmq2ymaQ_VUUp7aEENmz9oZnhAtCsWe0lzPJ6h0",
+            `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
           },
         });
         setMovie(res.data);

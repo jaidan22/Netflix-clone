@@ -3,16 +3,27 @@ import React, { useState } from "react";
 import "./navbar.scss";
 import profile from "../../images/profile.jpg";
 import logo from "../../images/icon.png";
+import { logOut } from "../../context/authContext/apiCalls";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext/AuthContext";
+import { logout } from "../../context/authContext/AuthActions";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, dispatch } = useContext(AuthContext);
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
     return () => {
       window.onscroll = null;
     };
+  };
+
+  const handleLogout = () => {
+    // logOut(dispatch);
+    dispatch(logout());
+    console.log(user);
   };
 
   return (
@@ -45,7 +56,7 @@ const Navbar = () => {
             <ArrowDropDown className="icon" />
             <div className="options">
               <span>Settings</span>
-              <span>Logout</span>
+              <span onClick={handleLogout}>Logout</span>
             </div>
           </div>
         </div>

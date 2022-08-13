@@ -12,7 +12,7 @@ function Featured(type) {
         const res = await axios.get(`/movies/random?type=${type}`, {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjk1NmJmYTUwYWRjNTEzYzRiNjU3ZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MzgxMDUzOSwiZXhwIjoxNjQ0MjQyNTM5fQ.8KS5Jmq2ymaQ_VUUp7aEENmz9oZnhAtCsWe0lzPJ6h0",
+              `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
           },
         });
         setContent(res.data[0]);
@@ -22,6 +22,12 @@ function Featured(type) {
     };
     getRandom();
   }, [type]);
+
+  let imgs = [
+    "https://raw.githubusercontent.com/jaidan22/netflix-clone-frontend/main/src/images/dark-knight-bg.jpg?token=GHSAT0AAAAAABUQTZSF2GTMGXRRBYEVLFBKYXDJUKQ",
+    "https://raw.githubusercontent.com/jaidan22/netflix-clone-frontend/main/src/images/dark-knight-title.jpeg?token=GHSAT0AAAAAABUQTZSE5CNGNIDIYCPWRDZQYXDJU3A",
+  ];
+
   return (
     <div className="featured">
       {type.type && (
