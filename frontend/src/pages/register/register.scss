@@ -17,6 +17,10 @@
   position: relative;
 
   .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     .wrapper {
       padding: 20px 50px;
       display: flex;

@@ -28,23 +28,27 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    !user && res.status(401).json("User not found");
 
-    var bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
-    var originalPassword = bytes.toString(CryptoJS.enc.Utf8);
+    if (user) {
+      var bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
+      var originalPassword = bytes.toString(CryptoJS.enc.Utf8);
 
-    originalPassword !== req.body.password &&
-      res.status(401).json("Incorrect password");
+      if (originalPassword !== req.body.password)
+        res.status(401).json("Incorrect password");
+      else {
+        const accessToken = jwt.sign(
+          { id: user._id, isAdmin: user.isAdmin },
+          process.env.ACCESS_KEY,
+          { expiresIn: "5d" }
+        );
 
-    const accessToken = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
-      process.env.ACCESS_KEY,
-      { expiresIn: "5d" }
-    );
+        const { password, ...info } = user._doc;
 
-    const { password, ...info } = user._doc;
-
-    res.status(200).json({ ...info, accessToken });
+        res.status(200).json({ ...info, accessToken });
+      }
+    } else {
+      res.status(401).json("User not found");
+    }
   } catch (err) {
     res.status(500).json(err);
   }
