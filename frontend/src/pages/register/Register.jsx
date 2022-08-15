@@ -13,6 +13,7 @@ function Register() {
   const [username, setUsername] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
+  const loadRef = useRef();
 
   const handleStart = () => {
     setEmail(emailRef.current.value);
@@ -21,10 +22,21 @@ function Register() {
     un && setUsername(un[0]);
   };
 
+  const loading = () => {
+    loadRef.current.style.opacity = 1;
+    loadRef.current.style.visibility = "visible";
+  };
+
+  const stoploading = () => {
+    loadRef.current.style.opacity = 0;
+    loadRef.current.style.visibility = "hidden";
+  };
+
   const redirect = () => <Navigate to="/login" />;
 
   const handleFinish = async (e) => {
     e.preventDefault();
+    loading();
     console.log({ email, password, username });
     try {
       const res = await axios.post("auth/register", {
@@ -33,8 +45,10 @@ function Register() {
         username,
       });
       console.log(res);
+      stoploading();
       return redirect();
     } catch (err) {
+      stoploading();
       console.log(err);
     }
   };
@@ -59,6 +73,10 @@ function Register() {
         <meta property="og:type" content="website" />
         <meta property="og:description" content="Register to Netflix" />
       </Helmet>
+
+      <div class="loader-container" ref={loadRef}>
+        <div class="loader"></div>
+      </div>
 
       <div className="container">
         <div className="top">

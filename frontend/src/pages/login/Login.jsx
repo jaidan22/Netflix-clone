@@ -12,6 +12,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const { error, isFetching, dispatch } = useContext(AuthContext);
+  const loadRef = useRef();
 
   const handlePass = (e) => {
     setpassword(e.target.value);
@@ -22,7 +23,19 @@ function Login() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    login({ email, password }, dispatch);
+    loading();
+    login({ email, password }, dispatch, stoploading);
+    // stoploading();
+  };
+
+  const loading = () => {
+    loadRef.current.style.opacity = 1;
+    loadRef.current.style.visibility = "visible";
+  };
+
+  const stoploading = () => {
+    loadRef.current.style.opacity = 0;
+    loadRef.current.style.visibility = "hidden";
   };
 
   return (
@@ -41,6 +54,10 @@ function Login() {
         <meta property="og:type" content="website" />
         <meta property="og:description" content="Login to Netflix" />
       </Helmet>
+
+      <div class="loader-container" ref={loadRef}>
+        <div class="loader"></div>
+      </div>
 
       <div className="top">
         <div className="wrapper">
