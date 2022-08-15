@@ -10,7 +10,7 @@ function Featured(type) {
   useEffect(() => {
     const getRandom = async () => {
       try {
-        const res = await axios.get(`/movies/random?type=${type}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/movies/random?type=${type}`, {
           headers: {
             token:
               `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,

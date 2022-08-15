@@ -4,7 +4,7 @@ import { loginFail, loginStart, loginSuccess, logout } from "./AuthActions";
 export const login = async (user, dispatch, stoploading) => {
   dispatch(loginStart());
   try {
-    const res = await axios.post(`/auth/login`, user);
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, user);
     dispatch(loginSuccess(res.data));
     // stoploading();
   } catch (err) {
