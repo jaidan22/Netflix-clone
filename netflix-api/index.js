@@ -9,6 +9,9 @@ const listRoute = require("./routes/lists");
 dotenv.config();
 
 const app = express();
+const cors = require("cors");
+
+app.use(cors());
 
 mongoose
   .connect(process.env.DB_URL)
