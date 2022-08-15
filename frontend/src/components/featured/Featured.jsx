@@ -2,6 +2,7 @@ import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import "./featured.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Featured(type) {
   const [content, setContent] = useState({});
@@ -51,7 +52,7 @@ function Featured(type) {
         </div>
       )}
 
-      <img src={content.imgThumbnail} alt="user" width="100%" />
+      <img src={content.img} alt="user" width="100%" />
       <div className="info">
         {console.log(content)}
         <img src={content.imgTitle} alt="movie" />
@@ -59,7 +60,9 @@ function Featured(type) {
         <div className="buttons">
           <button className="play">
             <PlayArrow />
-            <span>Play</span>
+            <Link to="/watch" state={content}>
+              <span>Play</span>
+              </Link>
           </button>
           <button className="more">
             <InfoOutlined />

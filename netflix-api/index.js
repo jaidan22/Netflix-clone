@@ -17,6 +17,10 @@ mongoose
 
 app.use(express.json());
 
+app.get("/", async (req, res) => {
+  res.send({ message: "Running......" });
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/movies", moviesRoute);

@@ -70,9 +70,15 @@
         font-weight: 500;
         cursor: pointer;
 
+        a{
+          text-decoration: none;
+          color: inherit;
+        }
+
         &.play {
           background-color: white;
           color: var(--main-color);
+          text-decoration: none !important;
         }
 
         &.more {
