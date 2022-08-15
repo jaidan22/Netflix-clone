@@ -18,8 +18,9 @@ function ListItem({ index, item }) {
       try {
         const res = await axios.get("/movies/find/" + item, {
           headers: {
-            token:
-            `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
+            token: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).accessToken
+            }`,
           },
         });
         setMovie(res.data);
@@ -39,7 +40,7 @@ function ListItem({ index, item }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img src={movie.imgTitle} alt="image" />
+        <img src={movie.imgThumbnail} alt="image" />
         {isHovered && (
           <>
             <iframe
