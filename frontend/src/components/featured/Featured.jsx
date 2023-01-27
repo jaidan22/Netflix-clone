@@ -1,22 +1,40 @@
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import "./featured.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Featured(type) {
   const [content, setContent] = useState({});
+  const loadRef = useRef();
+
+
+  const loading = () => {
+    loadRef.current.style.opacity = 1;
+    loadRef.current.style.visibility = "visible";
+  };
+
+  const stoploading = () => {
+    loadRef.current.style.opacity = 0;
+    loadRef.current.style.visibility = "hidden";
+  };
 
   useEffect(() => {
     const getRandom = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/movies/random?type=${type}`, {
-          headers: {
-            token:
-              `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
-          },
-        });
+        loading();
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/movies/random?type=${type}`,
+          {
+            headers: {
+              token: `Bearer ${
+                JSON.parse(localStorage.getItem("user")).accessToken
+              }`,
+            },
+          }
+        );
         setContent(res.data[0]);
+        stoploading();
       } catch (err) {
         console.log(err);
       }
@@ -52,6 +70,10 @@ function Featured(type) {
         </div>
       )}
 
+      <div class="loader-container" ref={loadRef}>
+        <div class="loader"></div>
+      </div>
+
       <img src={content.img} alt="user" width="100%" />
       <div className="info">
         {console.log(content)}
@@ -62,7 +84,7 @@ function Featured(type) {
             <PlayArrow />
             <Link to="/watch" state={content}>
               <span>Play</span>
-              </Link>
+            </Link>
           </button>
           <button className="more">
             <InfoOutlined />
