@@ -10,6 +10,13 @@ dotenv.config();
 
 const app = express();
 
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => console.log("DB connected successfully !!!!"))
+  .catch((err) => console.log(err));
+
+app.use(express.json());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader(
@@ -31,21 +38,14 @@ app.use((req, res, next) => {
   next();
 });
 
-mongoose
-  .connect(process.env.DB_URL)
-  .then(() => console.log("DB connected successfully !!!!"))
-  .catch((err) => console.log(err));
-
-app.use(express.json());
-
-app.get("/", async (req, res) => {
-  res.send({ message: "Running......" });
-});
-
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/movies", moviesRoute);
 app.use("/api/lists", listRoute);
+
+app.get("/", async (req, res) => {
+  res.send({ message: "Running......" });
+});
 
 app.listen(process.env.PORT || 8800, () => {
   console.log("Backend server running in port 8800");
